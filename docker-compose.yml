@@ -1,0 +1,17 @@
+version: '3.6'
+services:
+ payment-gateway-backend:
+  container_name: payment-gateway-backend
+  image: payment-gateway-backend:latest
+  restart: always
+  hostname: payment-gateway-backend
+  ports:
+      - "8910:3000"
+  volumes:
+   - ./static:/go/src/payment-gateway-backend/static
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.191.38.0/24

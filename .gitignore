@@ -1,0 +1,11 @@
+vendor
+config.json
+.realize.yaml
+.vscode
+.idea
+dk.pdf
+
+static
+.DS_Store
+.env
+.env example

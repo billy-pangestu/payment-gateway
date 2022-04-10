@@ -1,0 +1,276 @@
+{
+	"info": {
+		"_postman_id": "918cc74c-2b02-437d-9547-d749c2f2f8e9",
+		"name": "INIT GO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API ADMIN",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dcb106d1-bf90-4b24-9883-89fee993c4c3",
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"var token = jsonData.data.token;",
+											"pm.environment.set(\"token\", token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"superadmin1@init.com\",\n    \"password\": \"XF9ks/0jDS31ZpQAaoCemw==\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/api-admin/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"api-admin",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/api-admin/admin?page=1&limit=10",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"api-admin",
+										"admin"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/api-admin/admin/id/31c38ba3-fe2d-4068-a925-daeb45bbf900",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"api-admin",
+										"admin",
+										"id",
+										"31c38ba3-fe2d-4068-a925-daeb45bbf900"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get By Code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/api-admin/admin/code/a",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"api-admin",
+										"admin",
+										"code",
+										"a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Superadmin 2\",\n    \"email\": \"superadmin2@init.com\",\n    \"password\": \"XF9ks/0jDS31ZpQAaoCemw==\",\n    \"role_id\": \"8d777d38-ecf0-4c86-8054-4fe8bc6b761a\",\n    \"status\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/api-admin/admin",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"api-admin",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Superadmin 1\",\n    \"email\": \"superadmin1@apollo.com\",\n    \"password\": \"Kiasu123\",\n    \"role_id\": \"8d777d38-ecf0-4c86-8054-4fe8bc6b761a\",\n    \"status\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/api-admin/admin/id/31c38ba3-fe2d-4068-a925-daeb45bbf900",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"api-admin",
+										"admin",
+										"id",
+										"31c38ba3-fe2d-4068-a925-daeb45bbf900"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/api-admin/admin/id/31c38ba3-fe2d-4068-a925-daeb45bbf900",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"api-admin",
+										"admin",
+										"id",
+										"31c38ba3-fe2d-4068-a925-daeb45bbf900"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
