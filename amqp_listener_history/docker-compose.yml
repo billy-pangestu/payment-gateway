@@ -1,0 +1,15 @@
+version: '3'
+services:
+ go_billy_amqp_listener_history:
+  container_name: go_billy_amqp_listener_history
+  image: go_billy_amqp_listener_history:latest
+  restart: always
+  hostname: go_billy_amqp_listener_history
+  ports:
+  - "30006:3000"
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.191.149.0/24

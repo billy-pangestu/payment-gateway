@@ -21,6 +21,7 @@ func (uc UserUC) BuildBody(data *model.UserEntity, res *viewmodel.UserVM, showPa
 	res.FirstName = data.FirstName.String
 	res.LastName = data.LastName.String
 	res.UniqueID = data.UniqueID.String
+	res.Amount = data.Amount
 	res.CreatedAt = data.CreatedAt.String
 	res.UpdatedAt = data.UpdatedAt.String
 	res.DeletedAt = data.DeletedAt.String
@@ -126,6 +127,58 @@ func (uc UserUC) Create(data request.UserRequest) (res viewmodel.UserVM, err err
 	return res, err
 }
 
+// AddFund ...
+func (uc UserUC) AddFund(userID string, data request.UserAddFundRequest) (res viewmodel.UserVM, err error) {
+	ctx := "UserUC.AddFund"
+
+	_, err = uc.FindByID(userID, false)
+	if err != nil {
+		logruslogger.Log(logruslogger.WarnLevel, err.Error(), ctx, "user_not_found", uc.ReqID)
+		return res, errors.New(helper.UserNotFound)
+	}
+
+	now := time.Now().UTC()
+	res = viewmodel.UserVM{
+		Amount: data.Amount,
+	}
+	userModel := model.NewUserModel(uc.Tx)
+	res.ID, err = userModel.AddFund(userID, res, now)
+	if err != nil {
+		logruslogger.Log(logruslogger.WarnLevel, err.Error(), ctx, "query_store_agent", uc.ReqID)
+		return res, err
+	}
+
+	res.Password = ""
+
+	return res, err
+}
+
+// SubFund ...
+func (uc UserUC) SubFund(userID string, amount float64) (res viewmodel.UserVM, err error) {
+	ctx := "UserUC.SubFund"
+
+	_, err = uc.FindByID(userID, false)
+	if err != nil {
+		logruslogger.Log(logruslogger.WarnLevel, err.Error(), ctx, "user_not_found", uc.ReqID)
+		return res, errors.New(helper.UserNotFound)
+	}
+
+	now := time.Now().UTC()
+	res = viewmodel.UserVM{
+		Amount: amount,
+	}
+	userModel := model.NewUserModel(uc.Tx)
+	res.ID, err = userModel.SubFund(userID, res, now)
+	if err != nil {
+		logruslogger.Log(logruslogger.WarnLevel, err.Error(), ctx, "query_store_agent", uc.ReqID)
+		return res, err
+	}
+
+	res.Password = ""
+
+	return res, err
+}
+
 //Login ...
 func (uc UserUC) Login(data request.UserLoginRequest) (res viewmodel.JwtVM, err error) {
 	ctx := "UserUC.Login"
@@ -137,7 +190,7 @@ func (uc UserUC) Login(data request.UserLoginRequest) (res viewmodel.JwtVM, err 
 
 	}
 
-	// Decrypt password dari frontend karena frontend implementasi aes untuk menencrypsi password yang akan dikirimkan
+	// Decrypt password dari frontend jika frontend implementasi aes untuk menencrypsi password yang akan dikirimkan
 	// authUc := AuthUC{ContractUC: uc.ContractUC}
 	// passwordInput, err := authUc.DecryptedOnly(data.Password)
 	// if err != nil {
@@ -159,7 +212,7 @@ func (uc UserUC) Login(data request.UserLoginRequest) (res viewmodel.JwtVM, err 
 	payload := map[string]interface{}{
 		"id":        user.ID,
 		"role_name": user.RoleName,
-		"email":     user.UniqueID,
+		"unique_id": user.UniqueID,
 	}
 
 	// generate jwt token and store to redis

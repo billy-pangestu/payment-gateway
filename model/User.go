@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	userSelectQuery = `SELECT def."id", def."first_name", def."last_name", def."unique_id", def."password",
+	userSelectQuery = `SELECT def."id", def."first_name", def."last_name", def."unique_id", def."password", def."amount",
 	def."created_at", def."updated_at", def."deleted_at",
 	ur."name"
 	from users def
@@ -19,6 +19,8 @@ type IUser interface {
 	FindByUniqueID(UniqueID string) (UserEntity, error)
 	FindByID(id string) (UserEntity, error)
 	Store(data viewmodel.UserVM, now time.Time) (string, error)
+	AddFund(userID string, data viewmodel.UserVM, now time.Time) (string, error)
+	SubFund(userID string, data viewmodel.UserVM, now time.Time) (string, error)
 }
 
 // IUserWithoutTX ...
@@ -33,6 +35,7 @@ type UserEntity struct {
 	LastName  sql.NullString `db:"last_name"`
 	UniqueID  sql.NullString `db:"unique_id"`
 	Password  sql.NullString `db:"password"`
+	Amount    float64        `db:"amount"`
 	CreatedAt sql.NullString `db:"createdAt"`
 	UpdatedAt sql.NullString `db:"updatedAt"`
 	DeletedAt sql.NullString `db:"deletedAt"`
@@ -62,7 +65,7 @@ func NewUserModelWithoutTX(db *sql.DB) IUserWithoutTX {
 
 func (model userModel) scanRows(rows *sql.Rows) (d UserEntity, err error) {
 	err = rows.Scan(
-		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password,
+		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password, &d.Amount,
 		&d.CreatedAt, &d.UpdatedAt, &d.DeletedAt,
 		&d.UserRoleName,
 	)
@@ -72,7 +75,7 @@ func (model userModel) scanRows(rows *sql.Rows) (d UserEntity, err error) {
 
 func (model userModel) scanRow(row *sql.Row) (d UserEntity, err error) {
 	err = row.Scan(
-		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password,
+		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password, &d.Amount,
 		&d.CreatedAt, &d.UpdatedAt, &d.DeletedAt,
 		&d.UserRoleName,
 	)
@@ -82,7 +85,7 @@ func (model userModel) scanRow(row *sql.Row) (d UserEntity, err error) {
 
 func (model userModelWithoutTX) scanRows(rows *sql.Rows) (d UserEntity, err error) {
 	err = rows.Scan(
-		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password,
+		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password, &d.Amount,
 		&d.CreatedAt, &d.UpdatedAt, &d.DeletedAt,
 		&d.UserRoleName,
 	)
@@ -92,7 +95,7 @@ func (model userModelWithoutTX) scanRows(rows *sql.Rows) (d UserEntity, err erro
 
 func (model userModelWithoutTX) scanRow(row *sql.Row) (d UserEntity, err error) {
 	err = row.Scan(
-		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password,
+		&d.ID, &d.FirstName, &d.LastName, &d.UniqueID, &d.Password, &d.Amount,
 		&d.CreatedAt, &d.UpdatedAt, &d.DeletedAt,
 		&d.UserRoleName,
 	)
@@ -104,6 +107,7 @@ func (model userModelWithoutTX) scanRow(row *sql.Row) (d UserEntity, err error) 
 func (model userModel) FindByID(id string) (data UserEntity, err error) {
 	query := userSelectQuery +
 		` WHERE def."deleted_at" is null AND def."id"=$1`
+
 	row := model.DB.QueryRow(query, id)
 	data, err = model.scanRow(row)
 
@@ -146,6 +150,34 @@ func (model userModel) Store(data viewmodel.UserVM, now time.Time) (res string, 
 	err = model.DB.QueryRow(query,
 		data.FirstName, data.LastName, data.UniqueID, data.Password, data.RoleID,
 		now,
+	).Scan(&res)
+
+	return res, err
+}
+
+// AddFund ...
+func (model userModel) AddFund(userID string, data viewmodel.UserVM, now time.Time) (res string, err error) {
+	query := `
+		UPDATE "users" SET "amount" = amount+$1, "updated_at" = $2
+		WHERE "deleted_at" IS NULL AND "id" = $3 RETURNING "id"
+	`
+	err = model.DB.QueryRow(query,
+		data.Amount, now,
+		userID,
+	).Scan(&res)
+
+	return res, err
+}
+
+// SubFund ...
+func (model userModel) SubFund(userID string, data viewmodel.UserVM, now time.Time) (res string, err error) {
+	query := `
+		UPDATE "users" SET "amount" = amount-$1, "updated_at" = $2
+		WHERE "deleted_at" IS NULL AND "id" = $3 RETURNING "id"
+	`
+	err = model.DB.QueryRow(query,
+		data.Amount, now,
+		userID,
 	).Scan(&res)
 
 	return res, err

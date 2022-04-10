@@ -93,3 +93,9 @@ func UnmarshallMap(data string) (res map[string]interface{}) {
 
 	return res
 }
+
+// UnmarshallCbInterface convert interface to interface json
+func UnmarshallCbInterface(data interface{}, res interface{}) {
+	dataString := Marshall(data)
+	json.Unmarshal([]byte(dataString), &res)
+}

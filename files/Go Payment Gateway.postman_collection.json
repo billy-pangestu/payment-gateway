@@ -1,0 +1,731 @@
+{
+	"info": {
+		"_postman_id": "fada4413-07ea-479a-a4be-5f3e56c1ad7f",
+		"name": "Go Payment Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Api",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"var token = jsonData.data.token;\r",
+											"pm.environment.set(\"token\", token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"unique_id\": \"6633333333\",\r\n    \"password\":\"billy123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"unique_id\": \"6633333333\",\r\n    \"password\":\"billy123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/auth/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "1000"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "999"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1649613711"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 10 Apr 2022 18:01:50 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk4NzI5MTAsImp0aSI6ImV5SmhiR2NpT2lKU1UwRXhYelVpTENKbGJtTWlPaUpCTVRJNFEwSkRMVWhUTWpVMkluMC5jMG1tV3ZJMElRTFRzeUNDTHF2T2N6bElzaGFzNTZCSG1zblZzX1lYbjdBMEpiSmVZS0dQMDhZY2JJS1U5X0ZJbzhRREFuMHZBUjVYZ21HOTJaeGtabU0ycndzR0xJYVFMQm9MSjU3WDdDRlMzYnlydzVaT1dPX2M0eDkwV1Q4Vnh1MHpyOUdhZXc5WFpDU2dPR21IdmF2NFBrUV9UYzVodHFFT2IxMUtQMVZLU2R0RXMwMnVJbUhKd0xRR1d2RHhBOGRBOFQ4TVZIU3VIWWhOYm95Z28wZjE5UjVJQ2cyS3BqekRvd0ZFS2hDWGFPZktyRkxuX2l2RWhNTWlVdUVqc04xM2ZXOURPaFZjZFZuR3htQlVyR0JQMGdVTTNmWlZSQmU3cHBQZmFYdm5HTmF5SUM2d1Q1VGRoLTBPS2plRlRiTENybWxPb2JONzhpV1pxOXhCZThjcjVIdlE2OE0zVDNEbGt0SlMzQkxqVjV0dnhDaGt2ek11dXJGU011dXFZSURBSDFHN0E0MF9ybnpYdEV5b2w4Nm42YnpxQ19BNVdMcXRvb3JpS0k1Z2s3MU53THhLNWhuSGJJUmh4ZWRSNm1RbmRnUWM0My1oUzRvSTd1dkExS2w2RXZOSzdNMk43QWNnMVV3VDFBcVU3U21zaGRmM1lfMGZsYU9YMXV1NWU1TEJtVkpkSUZscVVwaGNpTENHNFR2WHV3OGRsaHNlNWhOeXlSWW9meFp1bTVJWlQ4a0FBTm03MmtvOGdjNU5QM1FENmJpdVJ4aTgtZUhWYzdMUzJhZDNlYzZNOW1NUmlGSHMyYlpPTUZkazhRRXdJS1d3eTA0Y2FsQUZDalJxeERoMUZmX2xVUy1wQ1NUS1dLMTFraXc4TGZrV1ExbEMwcGFIRnRFN0RhTS5HRWpLc2RGQnY2OV9rckZfTDNHNXFRLmM1RUpUUG40VkZ0NGhqTXVEQkNWaEpsaU5GWl9pYnJBdVVlYlJlUEhBcklwTkMyZHlDbW1aMk94dlV6aEFJRXBfYWh4RGlGRUxBZ2lwWXpYTW43WFhFTGVicDNfZjhyWnR5Yl9WZ0Q5cmIzTzJtaDJZTm9mZkJwdHZjSUxRZUtVSVdscGZZdFU1Q2FfMVJTNENTemhadDFBOXlQZi11OU56NHJnLVhBTzdmMC5DMFFKcGRUOTJhUEVGdzQtZFVxWkZnIn0.NhxtsU_Tr9dA3pcii9dCnE8Q7KUBoUM_tV0d7_P1MRM\",\n        \"expired_date\": \"2022-04-13T18:01:50Z\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTIyMDU3MTAsImp0aSI6ImV5SmhiR2NpT2lKU1UwRXhYelVpTENKbGJtTWlPaUpCTVRJNFEwSkRMVWhUTWpVMkluMC5jMG1tV3ZJMElRTFRzeUNDTHF2T2N6bElzaGFzNTZCSG1zblZzX1lYbjdBMEpiSmVZS0dQMDhZY2JJS1U5X0ZJbzhRREFuMHZBUjVYZ21HOTJaeGtabU0ycndzR0xJYVFMQm9MSjU3WDdDRlMzYnlydzVaT1dPX2M0eDkwV1Q4Vnh1MHpyOUdhZXc5WFpDU2dPR21IdmF2NFBrUV9UYzVodHFFT2IxMUtQMVZLU2R0RXMwMnVJbUhKd0xRR1d2RHhBOGRBOFQ4TVZIU3VIWWhOYm95Z28wZjE5UjVJQ2cyS3BqekRvd0ZFS2hDWGFPZktyRkxuX2l2RWhNTWlVdUVqc04xM2ZXOURPaFZjZFZuR3htQlVyR0JQMGdVTTNmWlZSQmU3cHBQZmFYdm5HTmF5SUM2d1Q1VGRoLTBPS2plRlRiTENybWxPb2JONzhpV1pxOXhCZThjcjVIdlE2OE0zVDNEbGt0SlMzQkxqVjV0dnhDaGt2ek11dXJGU011dXFZSURBSDFHN0E0MF9ybnpYdEV5b2w4Nm42YnpxQ19BNVdMcXRvb3JpS0k1Z2s3MU53THhLNWhuSGJJUmh4ZWRSNm1RbmRnUWM0My1oUzRvSTd1dkExS2w2RXZOSzdNMk43QWNnMVV3VDFBcVU3U21zaGRmM1lfMGZsYU9YMXV1NWU1TEJtVkpkSUZscVVwaGNpTENHNFR2WHV3OGRsaHNlNWhOeXlSWW9meFp1bTVJWlQ4a0FBTm03MmtvOGdjNU5QM1FENmJpdVJ4aTgtZUhWYzdMUzJhZDNlYzZNOW1NUmlGSHMyYlpPTUZkazhRRXdJS1d3eTA0Y2FsQUZDalJxeERoMUZmX2xVUy1wQ1NUS1dLMTFraXc4TGZrV1ExbEMwcGFIRnRFN0RhTS5HRWpLc2RGQnY2OV9rckZfTDNHNXFRLmM1RUpUUG40VkZ0NGhqTXVEQkNWaEpsaU5GWl9pYnJBdVVlYlJlUEhBcklwTkMyZHlDbW1aMk94dlV6aEFJRXBfYWh4RGlGRUxBZ2lwWXpYTW43WFhFTGVicDNfZjhyWnR5Yl9WZ0Q5cmIzTzJtaDJZTm9mZkJwdHZjSUxRZUtVSVdscGZZdFU1Q2FfMVJTNENTemhadDFBOXlQZi11OU56NHJnLVhBTzdmMC5DMFFKcGRUOTJhUEVGdzQtZFVxWkZnIn0.fAv4ExBssOrnijhOi9yo7L2Ih5wIC9zOVpeLfxfcXKs\",\n        \"refresh_expired_date\": \"2022-05-10T18:01:50Z\",\n        \"latest_action\": \"\"\n    },\n    \"meta\": null,\n    \"stat_code\": 200,\n    \"stat_msg\": \"Success\"\n}"
+								}
+							]
+						},
+						{
+							"name": "logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"var token = jsonData.data.token;\r",
+											"pm.environment.set(\"token\", token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/logout",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "logout",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/auth/logout",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "1000"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "999"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1649613708"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 10 Apr 2022 18:01:47 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "152"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"token\": \"\",\n        \"expired_date\": \"\",\n        \"refresh_token\": \"\",\n        \"refresh_expired_date\": \"\",\n        \"latest_action\": \"\"\n    },\n    \"meta\": null,\n    \"stat_code\": 200,\n    \"stat_msg\": \"Success\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Merchant",
+					"item": [
+						{
+							"name": "Find",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/merchant?page=1&limit=10",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"merchant"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Find",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/merchant?page=1&limit=10",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"merchant"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "limit",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "1000"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "999"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1649618267"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 10 Apr 2022 19:17:46 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "580"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": \"fe235a3c-7332-46b5-8a9b-270545ea3aa2\",\n            \"name\": \"Alibaba Store\",\n            \"created_at\": \"2022-04-11T02:13:42.748457Z\",\n            \"updated_at\": \"2022-04-11T02:13:42.748457Z\"\n        },\n        {\n            \"id\": \"f483e24b-9660-40ff-927f-ffd00f1cff43\",\n            \"name\": \"burgershot\",\n            \"created_at\": \"2022-04-11T01:44:48.817126Z\",\n            \"updated_at\": \"2022-04-10T18:54:38.624905Z\"\n        },\n        {\n            \"id\": \"ea9adb79-a153-4ab6-ad6d-91d883c99658\",\n            \"name\": \"Saga Japanese\",\n            \"created_at\": \"2022-04-11T02:13:42.758591Z\",\n            \"updated_at\": \"2022-04-10T19:14:36.461022Z\"\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"last_page\": 1,\n        \"count\": 3,\n        \"record_per_page\": 10\n    },\n    \"stat_code\": 200,\n    \"stat_msg\": \"Success\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Payment",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"merchant_id\":\"ea9adb79-a153-4ab6-ad6d-91d883c99658\",\r\n    \"amount\":5500000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/payment",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"payment"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Create",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"merchant_id\":\"f483e24b-9660-40ff-927f-ffd00f1cff43\",\r\n    \"amount\":500000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/payment",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"payment"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "1000"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "999"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1649616879"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 10 Apr 2022 18:54:38 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "309"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"217ea5dd-6854-4f7e-bb0e-276486fc4dfc\",\n        \"user_id\": \"7d32515b-9b5f-4bef-86e1-badb2608ec94\",\n        \"merchant_id\": \"f483e24b-9660-40ff-927f-ffd00f1cff43\",\n        \"amount\": 500000,\n        \"created_at\": \"2022-04-10T18:54:38Z\",\n        \"updated_at\": \"2022-04-10T18:54:38Z\",\n        \"deleted_at\": \"\"\n    },\n    \"meta\": null,\n    \"stat_code\": 200,\n    \"stat_msg\": \"Success\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Token",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/user",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "1000"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "999"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1649617028"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 10 Apr 2022 18:57:07 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "293"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"7d32515b-9b5f-4bef-86e1-badb2608ec94\",\n        \"first_name\": \"Dimas\",\n        \"last_name\": \"Adinata\",\n        \"unique_id\": \"6633333333\",\n        \"amount\": 4500000,\n        \"created_at\": \"2022-04-10T17:25:58.814704Z\",\n        \"updated_at\": \"2022-04-10T18:54:38.626335Z\",\n        \"role_name\": \"user\"\n    },\n    \"meta\": null,\n    \"stat_code\": 200,\n    \"stat_msg\": \"Success\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"adinata\",\r\n    \"last_name\": \"pratama\",\r\n    \"password\": \"billy123\",\r\n    \"role_id\": \"b2a52958-6b90-496c-a63a-42093fafa5a4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Create",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"first_name\": \"adinata\",\r\n    \"last_name\": \"pratama\",\r\n    \"password\": \"billy123\",\r\n    \"role_id\": \"b2a52958-6b90-496c-a63a-42093fafa5a4\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/user/register",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "1000"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "999"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1649613872"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 10 Apr 2022 18:04:31 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "238"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"c16591bc-c289-4fbd-b817-5bd278acacda\",\n        \"first_name\": \"adinata\",\n        \"last_name\": \"pratama\",\n        \"unique_id\": \"8888888888\",\n        \"created_at\": \"\",\n        \"role_id\": \"b2a52958-6b90-496c-a63a-42093fafa5a4\"\n    },\n    \"meta\": null,\n    \"stat_code\": 200,\n    \"stat_msg\": \"Success\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Add Fund",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 5000000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/addfund",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"addfund"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add Fund",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"amount\": 5000000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/user/addfund",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"addfund"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Origin"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "1000"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "999"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1649614554"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 10 Apr 2022 18:15:53 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "182"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"7d32515b-9b5f-4bef-86e1-badb2608ec94\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"unique_id\": \"\",\n        \"amount\": 5000000,\n        \"created_at\": \"\"\n    },\n    \"meta\": null,\n    \"stat_code\": 200,\n    \"stat_msg\": \"Success\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

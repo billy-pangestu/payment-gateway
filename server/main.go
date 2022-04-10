@@ -125,21 +125,6 @@ func main() {
 		Iv:  envConfig["AES_FRONT_IV"],
 	}
 
-	// // Minio connection
-	// minioInfo := minio.Connection{
-	// 	Endpoint:        envConfig["MINIO_ENDPOINT"],
-	// 	AccessKeyID:     envConfig["MINIO_ACCESS_KEY_ID"],
-	// 	SecretAccessKey: envConfig["MINIO_SECRET_ACCESS_KEY"],
-	// 	UseSSL:          str.StringToBool(envConfig["MINIO_USE_SSL"]),
-	// 	BaseURL:         envConfig["MINIO_BASE_URL"],
-	// 	DefaultBucket:   envConfig["MINIO_DEFAULT_BUCKET"],
-	// }
-	// minioConn, err := minioInfo.Connect()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// println("Min.io: ", envConfig["MINIO_ENDPOINT"])
-
 	// Validator initialize
 	validatorInit()
 
@@ -154,8 +139,6 @@ func main() {
 		Jwe:         jweCredential,
 		Aes:         aesCredential,
 		AesFront:    aesFrontCredential,
-		// Mandrill:    mandrillCredential,
-		// Minio:       minioConn,
 	}
 
 	r := chi.NewRouter()

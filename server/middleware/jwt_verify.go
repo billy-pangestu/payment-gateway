@@ -76,6 +76,7 @@ func (m VerifyMiddlewareInit) VerifyJwtTokenCredential(next http.Handler) http.H
 			apiHandler.RespondWithJSON(w, 401, 401, "Invalid Device!", []map[string]interface{}{}, []map[string]interface{}{})
 			return
 		}
+
 		if deviceID != jweRes["device_id"].(string) {
 			apiHandler.RespondWithJSON(w, 401, 401, "Expired Device Token!", []map[string]interface{}{}, []map[string]interface{}{})
 			return

@@ -14,3 +14,8 @@ type UserLoginRequest struct {
 	UniqueID string `json:"unique_id" validate:"required"`
 	Password string `json:"password"`
 }
+
+//UserAddFundRequest ...
+type UserAddFundRequest struct {
+	Amount float64 `json:"amount" validate:"required"`
+}

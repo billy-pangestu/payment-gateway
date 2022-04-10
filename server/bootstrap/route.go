@@ -50,7 +50,6 @@ func (boot *Bootup) RegisterRoutes() {
 			r.Route("/auth", func(r chi.Router) {
 				r.Group(func(r chi.Router) {
 					r.Post("/login", userHandler.LoginHandler)
-					r.Post("/register", userHandler.CreateHandler)
 				})
 				r.Group(func(r chi.Router) {
 					r.Use(mJwt.VerifyJwtTokenCredential)
@@ -58,17 +57,30 @@ func (boot *Bootup) RegisterRoutes() {
 				})
 			})
 
+			r.Route("/user", func(r chi.Router) {
+				r.Group(func(r chi.Router) {
+					r.Post("/register", userHandler.CreateHandler)
+				})
+				r.Group(func(r chi.Router) {
+					r.Use(mJwt.VerifyJwtTokenCredential)
+					r.Get("/", userHandler.TokenHandler)
+					r.Put("/addfund", userHandler.AddFundHandler)
+				})
+			})
+
 			transactionHandler := api.TransactionHandler{Handler: handlerType}
 			r.Route("/payment", func(r chi.Router) {
 				r.Group(func(r chi.Router) {
 					r.Use(mJwt.VerifyJwtTokenCredential)
-					r.Get("/id/", transactionHandler.GetByIDHandler)
-					r.Get("/tag/", transactionHandler.GetByTagHandler)
-					r.Get("/userid", transactionHandler.GetByUserIDHandler)
-					r.Get("/total", transactionHandler.GetTotalAmountHandler)
 					r.Post("/", transactionHandler.StoreHandler)
-					r.Put("/id/", transactionHandler.UpdateHandler)
-					r.Delete("/id/", transactionHandler.DeleteHandler)
+				})
+			})
+
+			merchantHandler := api.MerchantHandler{Handler: handlerType}
+			r.Route("/merchant", func(r chi.Router) {
+				r.Group(func(r chi.Router) {
+					r.Use(mJwt.VerifyJwtTokenCredential)
+					r.Get("/", merchantHandler.FindAllHandler)
 				})
 			})
 		})
