@@ -2,8 +2,9 @@ package jwe
 
 import (
 	"encoding/json"
-	"github.com/lestrrat/go-jwx/jwa"
-	"github.com/lestrrat/go-jwx/jwe"
+
+	"github.com/lestrrat-go/jwx/v2/jwa"
+	"github.com/lestrrat-go/jwx/v2/jwe"
 )
 
 // Credential ...
@@ -26,7 +27,7 @@ func (cred *Credential) Generate(payload map[string]interface{}) (res string, er
 	}
 
 	// Generate JWE
-	jweRes, err := jwe.Encrypt([]byte(payloadString), jwa.RSA1_5, &privkey.PublicKey, jwa.A128CBC_HS256, jwa.Deflate)
+	jweRes, err := jwe.Encrypt([]byte(payloadString), jwe.WithKey(jwa.RSA1_5, &privkey.PublicKey), jwe.WithContentEncryption(jwa.A128CBC_HS256), jwe.WithCompress(jwa.Deflate))
 	res = string(jweRes)
 
 	return res, err
@@ -39,7 +40,7 @@ func (cred *Credential) Rollback(userID string) (res map[string]interface{}, err
 		return res, err
 	}
 
-	decrypted, err := jwe.Decrypt([]byte(userID), jwa.RSA1_5, privkey)
+	decrypted, err := jwe.Decrypt([]byte(userID), jwe.WithKey(jwa.RSA1_5, privkey))
 	if err != nil {
 		return res, err
 	}
