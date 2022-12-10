@@ -1,17 +1,23 @@
-version: '3.6'
-services:
- payment-gateway-backend:
-  container_name: payment-gateway-backend
-  image: payment-gateway-backend:latest
-  restart: always
-  hostname: payment-gateway-backend
-  ports:
-      - "8910:3000"
-  volumes:
-   - ./static:/go/src/payment-gateway-backend/static
-networks:
-  default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.191.38.0/24
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-dpl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: lmnzr/simplebackend:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3001
